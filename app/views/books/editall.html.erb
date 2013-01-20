@@ -1,0 +1,37 @@
+<h1>Editing book</h1>
+
+<% if @isError == true then %>
+    <div id="error_explanation">
+    <h2><%#= pluralize(book.errors.count, "error") %> prohibited this book from being saved:</h2>
+    <ul>
+        <% @book.each_with_index{|book,i| %>
+            <% if book.errors.any? %>
+                <% book.errors.full_messages.each do |msg| %>
+                    <li><%= "#{i+1}line: #{msg}" %></li>
+                <% end %>
+            <% end %>
+        <% } %>
+    </ul>
+    </div>
+<% end %>
+
+<%=  form_tag :action => :updates do %>
+    <table >
+        <% @book.each_with_index{|book,i| %>
+          <tr>
+            <%= fields_for("book[]",book) {|f| %>
+                <td><%=  f.text_field :title %></td>
+                <td><%=  f.text_field :price %></td>
+                <td><%=  f.text_field :content %></td>
+            <% } %>
+          </tr>
+        <% } %>
+    </table>
+    <%= submit_tag "送信" %>
+<% end %>
+
+
+
+
+
+
